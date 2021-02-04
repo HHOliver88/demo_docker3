@@ -1,28 +1,33 @@
 version: "3.2"
 services:
     db:
+​      # instructs Docker that the db service is going to use a MySQL image version 5.7
       image: mysql:5.7
-      volumes:
+​      volumes:
+        # db_data is a name we set for the /var/lib/mysql path (We can change db_data to whatever), that we can then 
+​        # use to share data between two or more services.
         - db_data:/var/lib/mysql
       restart: always
+​      # It creates the MySQL credentials for us, as well as a database called hh. This is the credential you'll 
+​      # need in order for your express app to communicate with the MySQL service. 
       environment:
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: hh
         MYSQL_USER: root
         MYSQL_PASSWORD: password
-
       ports:
         - 3307:3306
-
     app:
+​      # This will tell Docker to start services in dependency order. In the above example, 
+​      # db will be started before app.
       depends_on:
-        - db
+        - db    
       build: ./
       command: npm start
       volumes:
         - ./:/var/www/app 
       ports:
         - 3001:3000
-
 volumes:
+    # it means that that specified volume (in this case, db_data) is available to all services (both app and db).
     db_data: {}
