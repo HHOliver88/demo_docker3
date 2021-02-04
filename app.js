@@ -1,19 +1,21 @@
 var Express             = require("express");
 var App                 = Express();
-const UserModel         = require('./models/user.model');
-
-class UserController {
-    async getUsers() {
-        let userModel           = new UserModel();
-        let users               = await userModel.getUsers();
-        console.log(users);
-    }
-}
-
-new UserController().getUsers();
+const Mysql             = require('mysql');
+const connection        = require('./config/database.js');
 
 App.get('/', function(request, response) {
-   response.send("<h1>Hello Services</h1>");
+    
+    let get_users_query 		= Mysql.format(`SELECT * FROM users;`);
+
+    connection.query(get_users_query, function (err, result) {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log(result);
+        }
+    })
+
+    response.send("<h1>Hello Services</h1>");
 })
 
 App.listen(3000, function() {});
