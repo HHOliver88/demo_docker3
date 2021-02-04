@@ -13,8 +13,6 @@ services:
       environment: # It creates the MySQL credentials for us, as well as a database called hh. This is the credential you'll need in order for your express app to communicate with the MySQL service. 
         MYSQL_ROOT_PASSWORD: password
         MYSQL_DATABASE: hh
-        MYSQL_USER: root
-        MYSQL_PASSWORD: password
 
       ports:
         - 3307:3306
