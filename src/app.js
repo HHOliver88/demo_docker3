@@ -3,17 +3,11 @@ var App             = Express();
 const Mysql         = require('mysql');
 const executeQuery  = require('./config/database.js');
 
-App.get('/', function(request, response) {
+App.get('/', async function(request, response) {
     
-    let get_users_query 		= Mysql.format(`SELECT * FROM users;`);
-
-    executeQuery(get_users_query, function(err, result){
-        if(err) {
-            console.log(err);
-        } else {
-            console.log("result:", result);
-        }       
-    });
+    let get_users_query     = Mysql.format(`SELECT * FROM users;`);
+    let result              = await executeQuery(get_users_query);
+    console.log("result:", result);
 
     response.send("<h1>Hello Services</h1>");
 })
