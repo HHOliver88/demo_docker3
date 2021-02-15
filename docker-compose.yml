@@ -17,7 +17,7 @@ services:
         # Private port for MySQL is 3306 and Public port is 3307. To connect to our MySQL container using Workbench, we use port 3307
         - 3307:3306
 
-    app:
+    web_app:
       depends_on: # This will tell Docker to start services in dependency order. In this example, before starting the app service, it waits for db to be started.
         - db
       build: ./
